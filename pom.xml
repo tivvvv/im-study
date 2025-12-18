@@ -5,18 +5,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.tiv</groupId>
-    <artifactId>easy-im</artifactId>
+    <artifactId>im-study</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>easy-im-auth</module>
-        <module>easy-im-gateway</module>
+        <module>im-study-auth</module>
+        <module>im-study-gateway</module>
+        <module>im-study-realtime-communicate</module>
     </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring-boot.version>2.6.13</spring-boot.version>
     </properties>
 
 </project>
