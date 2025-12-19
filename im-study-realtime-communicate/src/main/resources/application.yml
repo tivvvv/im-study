@@ -1,0 +1,30 @@
+server:
+  port: 8002
+
+spring:
+  application:
+    name: im-study-realtime-communicate
+  redis:
+    database: 10
+    host: localhost
+    port: 6379
+    timeout: 5000
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:18375
+
+knife4j:
+  enable: true
+  openapi:
+    title: im-study-realtime-communicate 接口文档
+    version: 1.0
+    group:
+      default:
+        api-rule: package
+        api-rule-resources:
+          - com.tiv.im.study.realtime.communicate.controller
+
+netty:
+  name: NettyServer
+  port: 8010
