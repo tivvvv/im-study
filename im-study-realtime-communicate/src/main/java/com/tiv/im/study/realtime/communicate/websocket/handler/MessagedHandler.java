@@ -1,12 +1,14 @@
-package com.tiv.im.study.realtime.communicate.websocket;
+package com.tiv.im.study.realtime.communicate.websocket.handler;
 
 import cn.hutool.json.JSONUtil;
 import com.tiv.im.study.realtime.communicate.constants.MessageTypeEnum;
 import com.tiv.im.study.realtime.communicate.model.Message;
+import com.tiv.im.study.realtime.communicate.websocket.ChannelManager;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.timeout.IdleStateEvent;
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,6 +48,11 @@ public class MessagedHandler extends SimpleChannelInboundHandler<TextWebSocketFr
                     log.info("userEventTriggered--读写空闲超时");
                     break;
             }
+        }
+
+        // 处理握手
+        if (evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
+            // 协议升级
         }
     }
 

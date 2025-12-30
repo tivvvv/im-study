@@ -1,5 +1,7 @@
 package com.tiv.im.study.realtime.communicate.websocket;
 
+import com.tiv.im.study.realtime.communicate.websocket.handler.MessagedHandler;
+import com.tiv.im.study.realtime.communicate.websocket.handler.TokenAuthHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -57,6 +59,7 @@ public class NettyServer {
                         pipeline.addLast(new HttpServerCodec());
                         pipeline.addLast(new ChunkedWriteHandler());
                         pipeline.addLast(new HttpObjectAggregator(8192));
+                        pipeline.addLast(new TokenAuthHandler());
                         pipeline.addLast(new WebSocketServerProtocolHandler("/api/v1/ws"));
                         pipeline.addLast(new MessagedHandler());
                     }
