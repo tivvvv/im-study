@@ -3,7 +3,11 @@ package com.tiv.im.study.realtime.communicate.websocket.handler;
 import cn.hutool.json.JSONUtil;
 import com.tiv.im.study.realtime.communicate.constants.MessageTypeEnum;
 import com.tiv.im.study.realtime.communicate.model.Message;
+import com.tiv.im.study.realtime.communicate.utils.JwtUtil;
+import com.tiv.im.study.realtime.communicate.utils.NettyUtil;
 import com.tiv.im.study.realtime.communicate.websocket.ChannelManager;
+import io.jsonwebtoken.Claims;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -52,7 +56,26 @@ public class MessagedHandler extends SimpleChannelInboundHandler<TextWebSocketFr
 
         // 处理握手
         if (evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
-            // 协议升级
+            // 验证token
+            String userId = NettyUtil.getAttr(ctx.channel(), NettyUtil.USER_ID);
+            String token = NettyUtil.getAttr(ctx.channel(), NettyUtil.TOKEN);
+            if (!validateToken(userId, token)) {
+                log.warn("userEventTriggered--token验证失败:{},用户id:{}", ctx.channel().remoteAddress(), userId);
+                ctx.close();
+                return;
+            }
+
+            // 单点登录
+            Channel oldChannel = ChannelManager.getChannelByUserId(userId);
+            // 关闭旧的连接
+            if (oldChannel != null) {
+                ChannelManager.removeChannel(userId, oldChannel);
+                oldChannel.close();
+            }
+
+            // 添加新的连接
+            ChannelManager.addChannel(userId, ctx.channel());
+            log.info("userEventTriggered--用户上线:{},用户id:{}", ctx.channel().remoteAddress(), userId);
         }
     }
 
@@ -74,6 +97,19 @@ public class MessagedHandler extends SimpleChannelInboundHandler<TextWebSocketFr
                 ctx.channel().close();
             }
         }
+    }
+
+    /**
+     * 验证token
+     *
+     * @param userId
+     * @param token
+     * @return
+     */
+    private boolean validateToken(String userId, String token) {
+        Claims claims = JwtUtil.parse(token);
+        String parseUserId = claims.getSubject();
+        return parseUserId != null && parseUserId.equals(userId);
     }
 
 }
