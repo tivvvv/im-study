@@ -1,4 +1,4 @@
-package com.tiv.im.study.auth.common;
+package com.tiv.im.study.gateway.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +18,7 @@ public enum CodeEnum {
     NOT_LOGIN_ERROR(40005, "未登录"),
     INVALID_REQUEST_SOURCE_ERROR(40006, "非法请求来源"),
     INVALID_PARAM_ERROR(40007, "非法参数"),
+    ILLEGAL_MESSAGE_TYPE(40008, "非法消息类型"),
 
     SYSTEM_ERROR(50000, "系统内部异常"),
     SEND_CODE_ERROR(50001, "发送验证码失败"),

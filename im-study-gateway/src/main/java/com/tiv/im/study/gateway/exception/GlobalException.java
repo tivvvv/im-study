@@ -1,6 +1,6 @@
-package com.tiv.im.study.auth.exception;
+package com.tiv.im.study.gateway.exception;
 
-import com.tiv.im.study.auth.common.CodeEnum;
+import com.tiv.im.study.gateway.common.CodeEnum;
 import lombok.Getter;
 
 /**

@@ -1,6 +1,6 @@
 package com.tiv.im.study.auth.controller;
 
-import com.tiv.im.study.auth.common.Result;
+import com.tiv.im.study.gateway.common.Result;
 import com.tiv.im.study.auth.data.common.file.FileUploadUrlResponse;
 import com.tiv.im.study.auth.data.common.sms.SmsRequest;
 import com.tiv.im.study.auth.service.CommonService;

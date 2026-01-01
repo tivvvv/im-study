@@ -1,4 +1,4 @@
-package com.tiv.im.study.auth.common;
+package com.tiv.im.study.gateway.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

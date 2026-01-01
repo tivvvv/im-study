@@ -1,4 +1,4 @@
-package com.tiv.im.study.realtime.communicate.utils;
+package com.tiv.im.study.gateway.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

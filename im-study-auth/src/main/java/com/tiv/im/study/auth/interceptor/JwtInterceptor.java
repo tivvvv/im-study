@@ -2,13 +2,13 @@ package com.tiv.im.study.auth.interceptor;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.tiv.im.study.auth.common.CodeEnum;
+import com.tiv.im.study.gateway.common.CodeEnum;
 import com.tiv.im.study.auth.constants.AuthConstants;
 import com.tiv.im.study.auth.context.UserContext;
-import com.tiv.im.study.auth.exception.GlobalException;
+import com.tiv.im.study.gateway.exception.GlobalException;
 import com.tiv.im.study.auth.mapper.UserMapper;
 import com.tiv.im.study.auth.model.User;
-import com.tiv.im.study.auth.utils.JwtUtil;
+import com.tiv.im.study.gateway.utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;

@@ -1,9 +1,12 @@
 package com.tiv.im.study.realtime.communicate.websocket.handler;
 
 import cn.hutool.json.JSONUtil;
+import com.tiv.im.study.gateway.common.CodeEnum;
+import com.tiv.im.study.gateway.exception.GlobalException;
 import com.tiv.im.study.realtime.communicate.constants.MessageTypeEnum;
+import com.tiv.im.study.realtime.communicate.model.AckData;
+import com.tiv.im.study.realtime.communicate.model.LogoutData;
 import com.tiv.im.study.realtime.communicate.model.Message;
-import com.tiv.im.study.realtime.communicate.utils.JwtUtil;
 import com.tiv.im.study.realtime.communicate.utils.NettyUtil;
 import com.tiv.im.study.realtime.communicate.websocket.ChannelManager;
 import io.jsonwebtoken.Claims;
@@ -28,6 +31,16 @@ public class MessagedHandler extends SimpleChannelInboundHandler<TextWebSocketFr
         log.info("接收到消息: {}", msg.text());
         Message message = JSONUtil.toBean(msg.text(), Message.class);
         MessageTypeEnum messageTypeEnum = MessageTypeEnum.of(message.getType());
+        switch (messageTypeEnum) {
+            case ACK:
+                processAck(message);
+            case LOG_OUT:
+                processLogout(message, ctx);
+            case HEART_BEAT:
+                processHeartBeat(ctx);
+            default:
+                processIllegal(message);
+        }
     }
 
     @Override
@@ -79,6 +92,31 @@ public class MessagedHandler extends SimpleChannelInboundHandler<TextWebSocketFr
         }
     }
 
+    private void processAck(Message message) {
+        AckData ackData = JSONUtil.toBean(message.getData().toString(), AckData.class);
+        log.info("processAck--收到ack:{}", ackData);
+    }
+
+    private void processLogout(Message message, ChannelHandlerContext ctx) {
+        LogoutData logoutData = JSONUtil.toBean(message.getData().toString(), LogoutData.class);
+        Long userId = logoutData.getUserId();
+        offline(ctx);
+        log.info("processLogout--用户下线:{},用户id:{}", ctx.channel().remoteAddress(), userId);
+    }
+
+    private void processHeartBeat(ChannelHandlerContext ctx) {
+        Message message = new Message();
+        message.setType(MessageTypeEnum.HEART_BEAT.getCode());
+        TextWebSocketFrame frame = new TextWebSocketFrame(JSONUtil.toJsonStr(message));
+        ctx.channel().writeAndFlush(frame);
+        log.info("processHeartBeat--发送心跳:{}", ctx.channel().remoteAddress());
+    }
+
+    private void processIllegal(Message message) {
+        log.warn("processIllegal--非法消息:{}", message);
+        throw new GlobalException(CodeEnum.ILLEGAL_MESSAGE_TYPE);
+    }
+
     /**
      * 下线
      *
@@ -107,7 +145,7 @@ public class MessagedHandler extends SimpleChannelInboundHandler<TextWebSocketFr
      * @return
      */
     private boolean validateToken(String userId, String token) {
-        Claims claims = JwtUtil.parse(token);
+        Claims claims = com.tiv.im.study.gateway.utils.JwtUtil.parse(token);
         String parseUserId = claims.getSubject();
         return parseUserId != null && parseUserId.equals(userId);
     }

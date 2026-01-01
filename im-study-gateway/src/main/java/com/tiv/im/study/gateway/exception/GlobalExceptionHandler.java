@@ -1,7 +1,7 @@
-package com.tiv.im.study.auth.exception;
+package com.tiv.im.study.gateway.exception;
 
-import com.tiv.im.study.auth.common.CodeEnum;
-import com.tiv.im.study.auth.common.Result;
+import com.tiv.im.study.gateway.common.CodeEnum;
+import com.tiv.im.study.gateway.common.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

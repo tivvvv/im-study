@@ -1,10 +1,10 @@
 package com.tiv.im.study.auth.service.impl;
 
-import com.tiv.im.study.auth.common.CodeEnum;
+import com.tiv.im.study.gateway.common.CodeEnum;
 import com.tiv.im.study.auth.constants.AuthConstants;
 import com.tiv.im.study.auth.data.common.file.FileUploadUrlResponse;
 import com.tiv.im.study.auth.data.common.sms.SmsRequest;
-import com.tiv.im.study.auth.exception.GlobalException;
+import com.tiv.im.study.gateway.exception.GlobalException;
 import com.tiv.im.study.auth.service.CommonService;
 import com.tiv.im.study.auth.utils.MinioUtil;
 import com.tiv.im.study.auth.utils.SmsUtil;

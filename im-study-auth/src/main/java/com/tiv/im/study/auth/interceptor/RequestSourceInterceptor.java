@@ -1,8 +1,8 @@
 package com.tiv.im.study.auth.interceptor;
 
-import com.tiv.im.study.auth.common.CodeEnum;
+import com.tiv.im.study.gateway.common.CodeEnum;
 import com.tiv.im.study.auth.constants.AuthConstants;
-import com.tiv.im.study.auth.exception.GlobalException;
+import com.tiv.im.study.gateway.exception.GlobalException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
